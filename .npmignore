@@ -1,0 +1,8 @@
+docs
+node_modules
+.next
+package-lock.json
+yarn.lock
+demo
+.github
+prettier.config.js
