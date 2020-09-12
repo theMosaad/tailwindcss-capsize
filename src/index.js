@@ -42,6 +42,7 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
         ...generateRootFontSizeFor(0),
         'line-height': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
         '--line-height-rem': '0',
+        '--line-height-px': '0',
         '--line-height-unitless': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
       },
     },
@@ -58,12 +59,37 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                       (
                         (
                             (
-                                var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
+                                var(--line-height-scale) * ${
+                                  fontSize.endsWith('rem')
+                                    ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                    : fontSize.endsWith('px')
+                                    ? `var(--font-size-px)`
+                                    : ``
+                                } -
                                   (var(--line-height-rem) * var(--root-font-size-px)) -
-                                  (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
+                                  (var(--line-height-unitless) * ${
+                                    fontSize.endsWith('rem')
+                                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                      : fontSize.endsWith('px')
+                                      ? `var(--font-size-px)`
+                                      : ``
+                                  })
+                                  - var(--line-height-px)
                               ) / 2
-                          ) / (var(--font-size-rem) * var(--root-font-size-px))
-                      ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
+                          ) / ${
+                            fontSize.endsWith('rem')
+                              ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                              : fontSize.endsWith('px')
+                              ? `var(--font-size-px)`
+                              : ``
+                          }
+                      ) + (0.05 / ${
+                        fontSize.endsWith('rem')
+                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                          : fontSize.endsWith('px')
+                          ? `var(--font-size-px)`
+                          : ``
+                      }))
               )`,
           display: 'table',
         },
@@ -74,12 +100,37 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                               (
                                 (
                                     (
-                                        var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
+                                        var(--line-height-scale) * ${
+                                          fontSize.endsWith('rem')
+                                            ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                            : fontSize.endsWith('px')
+                                            ? `var(--font-size-px)`
+                                            : ``
+                                        } -
                                           (var(--line-height-rem) * var(--root-font-size-px)) -
-                                          (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
+                                          (var(--line-height-unitless) * ${
+                                            fontSize.endsWith('rem')
+                                              ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                              : fontSize.endsWith('px')
+                                              ? `var(--font-size-px)`
+                                              : ``
+                                          })
+                                          - var(--line-height-px)
                                       ) / 2
-                                  ) / (var(--font-size-rem) * var(--root-font-size-px))
-                              ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
+                                  ) / ${
+                                    fontSize.endsWith('rem')
+                                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                      : fontSize.endsWith('px')
+                                      ? `var(--font-size-px)`
+                                      : ``
+                                  }
+                              ) + (0.05 / ${
+                                fontSize.endsWith('rem')
+                                  ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                  : fontSize.endsWith('px')
+                                  ? `var(--font-size-px)`
+                                  : ``
+                              }))
                       )`,
           display: 'table',
         },
@@ -150,7 +201,13 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
         `.${e(`text-${modifier}`)}`,
         {
           'font-size': fontSize,
-          '--font-size-rem': fontSize.endsWith('rem') ? fontSize.replace('rem', '') : '0',
+          ...(fontSize.endsWith('rem')
+            ? {
+                '--font-size-rem': fontSize.replace('rem', ''),
+              }
+            : fontSize.endsWith('px')
+            ? { '--font-size-px': fontSize.replace('px', '') }
+            : {}),
           ...(lineHeight === undefined
             ? {}
             : {
@@ -158,6 +215,7 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                 '--line-height-rem': lineHeight.endsWith('rem')
                   ? lineHeight.replace('rem', '')
                   : '0',
+                '--line-height-px': lineHeight.endsWith('px') ? lineHeight.replace('px', '') : '0',
                 '--line-height-unitless':
                   !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight) ? lineHeight : '0',
               }),
@@ -170,12 +228,40 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                             (
                               (
                                   (
-                                      var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
-                                        (var(--line-height-rem) * var(--root-font-size-px)) -
-                                        (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
+                                      var(--line-height-scale)
+                                      * ${
+                                        fontSize.endsWith('rem')
+                                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                          : fontSize.endsWith('px')
+                                          ? `var(--font-size-px)`
+                                          : ``
+                                      } 
+                                      
+                                      - (var(--line-height-rem) * var(--root-font-size-px))
+                                      - (var(--line-height-unitless) 
+                                      * ${
+                                        fontSize.endsWith('rem')
+                                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                          : fontSize.endsWith('px')
+                                          ? `var(--font-size-px)`
+                                          : ``
+                                      })
+                                      - var(--line-height-px)
                                     ) / 2
-                                ) / (var(--font-size-rem) * var(--root-font-size-px))
-                            ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
+                                ) / ${
+                                  fontSize.endsWith('rem')
+                                    ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                    : fontSize.endsWith('px')
+                                    ? `var(--font-size-px)`
+                                    : ``
+                                }
+                            ) + (0.05 / ${
+                              fontSize.endsWith('rem')
+                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                : fontSize.endsWith('px')
+                                ? `var(--font-size-px)`
+                                : ``
+                            }))
                     )`,
                   display: 'table',
                 },
@@ -186,12 +272,37 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                                     (
                                       (
                                           (
-                                              var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
+                                              var(--line-height-scale) * ${
+                                                fontSize.endsWith('rem')
+                                                  ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                                  : fontSize.endsWith('px')
+                                                  ? `var(--font-size-px)`
+                                                  : ``
+                                              } -
                                                 (var(--line-height-rem) * var(--root-font-size-px)) -
-                                                (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
+                                                (var(--line-height-unitless) * ${
+                                                  fontSize.endsWith('rem')
+                                                    ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                                    : fontSize.endsWith('px')
+                                                    ? `var(--font-size-px)`
+                                                    : ``
+                                                })
+                                                - var(--line-height-px)
                                             ) / 2
-                                        ) / (var(--font-size-rem) * var(--root-font-size-px))
-                                    ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
+                                        ) / ${
+                                          fontSize.endsWith('rem')
+                                            ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                            : fontSize.endsWith('px')
+                                            ? `var(--font-size-px)`
+                                            : ``
+                                        }
+                                    ) + (0.05 / ${
+                                      fontSize.endsWith('rem')
+                                        ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                        : fontSize.endsWith('px')
+                                        ? `var(--font-size-px)`
+                                        : ``
+                                    }))
                             )`,
                   display: 'table',
                 },
@@ -216,6 +327,7 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
         {
           'line-height': value,
           '--line-height-rem': value.endsWith('rem') ? value.replace('rem', '') : '0',
+          '--line-height-px': value.endsWith('px') ? value.replace('px', '') : '0',
           '--line-height-unitless': !isNaN(parseFloat(value)) && isFinite(value) ? value : '0',
         },
       ]
