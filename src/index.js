@@ -51,25 +51,7 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
   if (theme('capsize.className')) {
     const capsizeUtilities = {
       [`.${e(theme('capsize.className'))}`]: {
-        padding: '0.05px 0',
         '&::before': {
-          content: '""',
-          'margin-top': `calc(
-                -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
-                      (
-                        (
-                            (
-                                var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
-                                  (var(--line-height-rem) * var(--root-font-size-px)) -
-                                  (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
-                              ) / 2
-                          ) / (var(--font-size-rem) * var(--root-font-size-px))
-                      ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
-              )`,
-          display: 'block',
-          height: '0',
-        },
-        '&::after': {
           content: '""',
           'margin-bottom': `calc(
                 -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
@@ -83,8 +65,23 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                           ) / (var(--font-size-rem) * var(--root-font-size-px))
                       ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
               )`,
-          display: 'block',
-          height: '0',
+          display: 'table',
+        },
+        '&::after': {
+          content: '""',
+          'margin-top': `calc(
+                        -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
+                              (
+                                (
+                                    (
+                                        var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
+                                          (var(--line-height-rem) * var(--root-font-size-px)) -
+                                          (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
+                                      ) / 2
+                                  ) / (var(--font-size-rem) * var(--root-font-size-px))
+                              ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
+                      )`,
+          display: 'table',
         },
       },
     }
@@ -166,25 +163,7 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
               }),
           ...(theme('capsize.className') === undefined
             ? {
-                padding: '0.05px 0',
                 '&::before': {
-                  content: '""',
-                  'margin-top': `calc(
-                      -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
-                            (
-                              (
-                                  (
-                                      var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
-                                        (var(--line-height-rem) * var(--root-font-size-px)) -
-                                        (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
-                                    ) / 2
-                                ) / (var(--font-size-rem) * var(--root-font-size-px))
-                            ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
-                    )`,
-                  display: 'block',
-                  height: '0',
-                },
-                '&::after': {
                   content: '""',
                   'margin-bottom': `calc(
                       -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
@@ -198,8 +177,23 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
                                 ) / (var(--font-size-rem) * var(--root-font-size-px))
                             ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
                     )`,
-                  display: 'block',
-                  height: '0',
+                  display: 'table',
+                },
+                '&::after': {
+                  content: '""',
+                  'margin-top': `calc(
+                              -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
+                                    (
+                                      (
+                                          (
+                                              var(--line-height-scale) * (var(--font-size-rem) * var(--root-font-size-px)) -
+                                                (var(--line-height-rem) * var(--root-font-size-px)) -
+                                                (var(--line-height-unitless) * (var(--font-size-rem) * var(--root-font-size-px)))
+                                            ) / 2
+                                        ) / (var(--font-size-rem) * var(--root-font-size-px))
+                                    ) + (0.05 / (var(--font-size-rem) * var(--root-font-size-px))))
+                            )`,
+                  display: 'table',
                 },
               }
             : {}),
