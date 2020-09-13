@@ -52,87 +52,90 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
   if (theme('capsize.className')) {
     const capsizeUtilities = {
       [`.${e(theme('capsize.className'))}`]: {
+        padding: '0.05px 0',
         '&::before': {
           content: '""',
-          'margin-bottom': `calc(
-                -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
-                      (
-                        (
-                            (
-                                var(--line-height-scale) * ${
-                                  fontSize.endsWith('rem')
-                                    ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                    : fontSize.endsWith('px')
-                                    ? `var(--font-size-px)`
-                                    : ``
-                                } -
-                                  (var(--line-height-rem) * var(--root-font-size-px)) -
-                                  (var(--line-height-unitless) * ${
-                                    fontSize.endsWith('rem')
-                                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                      : fontSize.endsWith('px')
-                                      ? `var(--font-size-px)`
-                                      : ``
-                                  })
-                                  - var(--line-height-px)
-                              ) / 2
-                          ) / ${
-                            fontSize.endsWith('rem')
-                              ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                              : fontSize.endsWith('px')
-                              ? `var(--font-size-px)`
-                              : ``
-                          }
-                      ) + (0.05 / ${
-                        fontSize.endsWith('rem')
-                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                          : fontSize.endsWith('px')
-                          ? `var(--font-size-px)`
-                          : ``
-                      }))
-              )`,
-          display: 'table',
-        },
-        '&::after': {
-          content: '""',
+          display: 'block',
+          height: '0',
           'margin-top': `calc(
-                        -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
-                              (
-                                (
-                                    (
-                                        var(--line-height-scale) * ${
-                                          fontSize.endsWith('rem')
-                                            ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                            : fontSize.endsWith('px')
-                                            ? `var(--font-size-px)`
-                                            : ``
-                                        } -
-                                          (var(--line-height-rem) * var(--root-font-size-px)) -
-                                          (var(--line-height-unitless) * ${
-                                            fontSize.endsWith('rem')
-                                              ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                              : fontSize.endsWith('px')
-                                              ? `var(--font-size-px)`
-                                              : ``
-                                          })
-                                          - var(--line-height-px)
-                                      ) / 2
-                                  ) / ${
-                                    fontSize.endsWith('rem')
-                                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                      : fontSize.endsWith('px')
-                                      ? `var(--font-size-px)`
-                                      : ``
-                                  }
-                              ) + (0.05 / ${
+            -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
+                  (
+                    (
+                        (
+                            var(--line-height-scale) * ${
+                              fontSize.endsWith('rem')
+                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                : fontSize.endsWith('px')
+                                ? `var(--font-size-px)`
+                                : ``
+                            } -
+                              (var(--line-height-rem) * var(--root-font-size-px)) -
+                              (var(--line-height-unitless) * ${
                                 fontSize.endsWith('rem')
                                   ? `(var(--font-size-rem) * var(--root-font-size-px))`
                                   : fontSize.endsWith('px')
                                   ? `var(--font-size-px)`
                                   : ``
-                              }))
-                      )`,
-          display: 'table',
+                              })
+                              - var(--line-height-px)
+                          ) / 2
+                      ) / ${
+                        fontSize.endsWith('rem')
+                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                          : fontSize.endsWith('px')
+                          ? `var(--font-size-px)`
+                          : ``
+                      }
+                  ) + (0.05 / ${
+                    fontSize.endsWith('rem')
+                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                      : fontSize.endsWith('px')
+                      ? `var(--font-size-px)`
+                      : ``
+                  }))
+          )`,
+        },
+        '&::after': {
+          content: '""',
+          display: 'block',
+          height: '0',
+          'margin-bottom': `calc(
+            -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
+                  (
+                    (
+                        (
+                            var(--line-height-scale) * ${
+                              fontSize.endsWith('rem')
+                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                : fontSize.endsWith('px')
+                                ? `var(--font-size-px)`
+                                : ``
+                            } -
+                              (var(--line-height-rem) * var(--root-font-size-px)) -
+                              (var(--line-height-unitless) * ${
+                                fontSize.endsWith('rem')
+                                  ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                  : fontSize.endsWith('px')
+                                  ? `var(--font-size-px)`
+                                  : ``
+                              })
+                              - var(--line-height-px)
+                          ) / 2
+                      ) / ${
+                        fontSize.endsWith('rem')
+                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                          : fontSize.endsWith('px')
+                          ? `var(--font-size-px)`
+                          : ``
+                      }
+                  ) + (0.05 / ${
+                    fontSize.endsWith('rem')
+                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                      : fontSize.endsWith('px')
+                      ? `var(--font-size-px)`
+                      : ``
+                  }))
+          )`,
         },
       },
     }
@@ -221,90 +224,90 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
               }),
           ...(theme('capsize.className') === undefined
             ? {
+                padding: '0.05px 0',
                 '&::before': {
                   content: '""',
-                  'margin-bottom': `calc(
-                      -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
-                            (
-                              (
-                                  (
-                                      var(--line-height-scale)
-                                      * ${
-                                        fontSize.endsWith('rem')
-                                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                          : fontSize.endsWith('px')
-                                          ? `var(--font-size-px)`
-                                          : ``
-                                      } 
-                                      
-                                      - (var(--line-height-rem) * var(--root-font-size-px))
-                                      - (var(--line-height-unitless) 
-                                      * ${
-                                        fontSize.endsWith('rem')
-                                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                          : fontSize.endsWith('px')
-                                          ? `var(--font-size-px)`
-                                          : ``
-                                      })
-                                      - var(--line-height-px)
-                                    ) / 2
-                                ) / ${
-                                  fontSize.endsWith('rem')
-                                    ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                    : fontSize.endsWith('px')
-                                    ? `var(--font-size-px)`
-                                    : ``
-                                }
-                            ) + (0.05 / ${
-                              fontSize.endsWith('rem')
-                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                : fontSize.endsWith('px')
-                                ? `var(--font-size-px)`
-                                : ``
-                            }))
-                    )`,
-                  display: 'table',
-                },
-                '&::after': {
-                  content: '""',
+                  display: 'block',
+                  height: '0',
                   'margin-top': `calc(
-                              -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
-                                    (
-                                      (
-                                          (
-                                              var(--line-height-scale) * ${
-                                                fontSize.endsWith('rem')
-                                                  ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                                  : fontSize.endsWith('px')
-                                                  ? `var(--font-size-px)`
-                                                  : ``
-                                              } -
-                                                (var(--line-height-rem) * var(--root-font-size-px)) -
-                                                (var(--line-height-unitless) * ${
-                                                  fontSize.endsWith('rem')
-                                                    ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                                    : fontSize.endsWith('px')
-                                                    ? `var(--font-size-px)`
-                                                    : ``
-                                                })
-                                                - var(--line-height-px)
-                                            ) / 2
-                                        ) / ${
-                                          fontSize.endsWith('rem')
-                                            ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                            : fontSize.endsWith('px')
-                                            ? `var(--font-size-px)`
-                                            : ``
-                                        }
-                                    ) + (0.05 / ${
+                  -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
+                        (
+                          (
+                              (
+                                  var(--line-height-scale) * ${
+                                    fontSize.endsWith('rem')
+                                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                      : fontSize.endsWith('px')
+                                      ? `var(--font-size-px)`
+                                      : ``
+                                  } -
+                                    (var(--line-height-rem) * var(--root-font-size-px)) -
+                                    (var(--line-height-unitless) * ${
                                       fontSize.endsWith('rem')
                                         ? `(var(--font-size-rem) * var(--root-font-size-px))`
                                         : fontSize.endsWith('px')
                                         ? `var(--font-size-px)`
                                         : ``
-                                    }))
-                            )`,
-                  display: 'table',
+                                    })
+                                    - var(--line-height-px)
+                                ) / 2
+                            ) / ${
+                              fontSize.endsWith('rem')
+                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                : fontSize.endsWith('px')
+                                ? `var(--font-size-px)`
+                                : ``
+                            }
+                        ) + (0.05 / ${
+                          fontSize.endsWith('rem')
+                            ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                            : fontSize.endsWith('px')
+                            ? `var(--font-size-px)`
+                            : ``
+                        }))
+                )`,
+                },
+                '&::after': {
+                  content: '""',
+                  display: 'block',
+                  height: '0',
+                  'margin-bottom': `calc(
+                  -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
+                        (
+                          (
+                              (
+                                  var(--line-height-scale) * ${
+                                    fontSize.endsWith('rem')
+                                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                      : fontSize.endsWith('px')
+                                      ? `var(--font-size-px)`
+                                      : ``
+                                  } -
+                                    (var(--line-height-rem) * var(--root-font-size-px)) -
+                                    (var(--line-height-unitless) * ${
+                                      fontSize.endsWith('rem')
+                                        ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                        : fontSize.endsWith('px')
+                                        ? `var(--font-size-px)`
+                                        : ``
+                                    })
+                                    - var(--line-height-px)
+                                ) / 2
+                            ) / ${
+                              fontSize.endsWith('rem')
+                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                                : fontSize.endsWith('px')
+                                ? `var(--font-size-px)`
+                                : ``
+                            }
+                        ) + (0.05 / ${
+                          fontSize.endsWith('rem')
+                            ? `(var(--font-size-rem) * var(--root-font-size-px))`
+                            : fontSize.endsWith('px')
+                            ? `var(--font-size-px)`
+                            : ``
+                        }))
+                )`,
                 },
               }
             : {}),
