@@ -2,7 +2,3 @@
 @import 'components.css';
 
 @import 'utilities.css';
-
-/*! purgecss start ignore */
-@import 'markdown.css';
-/*! purgecss end ignore */
