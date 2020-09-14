@@ -1,7 +1,7 @@
 {
   "name": "tailwindcss-capsize-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "A demo for testing @themosaad/tailwindcss-capsize plugin",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
