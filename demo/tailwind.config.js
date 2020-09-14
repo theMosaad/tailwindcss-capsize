@@ -10,7 +10,28 @@ try {
 }
 
 module.exports = {
-  // purge: ['./**/*.js'],
+  purge: {
+    content: ['./**/*.js'],
+    options: {
+      whitelist: [
+        'font-sans',
+        'font-source',
+        'font-ubuntu-mono',
+        'text-6xl',
+        'text-5xl',
+        'text-4xl',
+        'text-3xl',
+        'text-2xl',
+        'text-xl',
+        'text-lg',
+        'text-base',
+        'text-sm',
+        'text-xs',
+        'leading-tight',
+        'leading-relaxed',
+      ],
+    },
+  },
   corePlugins: {
     fontFamily: false,
     fontSize: false,
