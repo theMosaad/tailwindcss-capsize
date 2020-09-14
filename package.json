@@ -9,7 +9,11 @@
   "license": "MIT",
   "keywords": [
     "tailwindcss",
-    "capsize"
+    "capsize",
+    "leading trim",
+    "leading",
+    "typography",
+    "baseline"
   ],
   "publishConfig": {
     "access": "public"
@@ -22,5 +26,8 @@
     "url": "https://github.com/theMosaad/tailwindcss-capsize/issues"
   },
   "homepage": "https://github.com/theMosaad/tailwindcss-capsize#readme",
-  "dependencies": {}
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "tailwindcss": "^1.8.9"
+  }
 }
