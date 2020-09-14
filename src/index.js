@@ -41,102 +41,57 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
       html: {
         ...generateRootFontSizeFor(0),
         'line-height': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
-        '--line-height-rem': '0',
-        '--line-height-px': '0',
         '--line-height-unitless': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
+        '--prevent-collapse': '0.05',
       },
     },
     ...atRules,
   ])
 
+  const capsizeContent = {
+    padding: '0.05px 0',
+    'padding-top': 'calc(1px * var(--prevent-collapse))',
+    'padding-bottom': 'calc(1px * var(--prevent-collapse))',
+    'padding-right': '0',
+    'padding-left': '0',
+    '&::before': {
+      content: '""',
+      display: 'block',
+      height: '0',
+      '--line-height-normal': 'calc(var(--line-height-scale) * var(--font-size-px))',
+      '--specified-line-height-offset-double':
+        'calc(var(--line-height-normal) - var(--line-height-px))',
+      '--specified-line-height-offset': 'calc(var(--specified-line-height-offset-double) / 2 )',
+      '--specified-line-height-offset-to-scale':
+        'calc(var(--specified-line-height-offset) / var(--font-size-px))',
+      '--prevent-collapse-to-scale': 'calc(var(--prevent-collapse) / var(--font-size-px))',
+      '--line-gap-scale-half': 'calc(var(--line-gap-scale) / 2)',
+      '--leading-trim-top':
+        'calc( var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
+      'margin-top': 'calc(-1em * var(--leading-trim-top))',
+    },
+    '&::after': {
+      content: '""',
+      display: 'block',
+      height: '0',
+      '--line-height-normal': 'calc(var(--line-height-scale) * var(--font-size-px))',
+      '--specified-line-height-offset-double':
+        'calc(var(--line-height-normal) - var(--line-height-px))',
+      '--specified-line-height-offset': 'calc(var(--specified-line-height-offset-double) / 2 )',
+      '--specified-line-height-offset-to-scale':
+        'calc(var(--specified-line-height-offset) / var(--font-size-px))',
+      '--prevent-collapse-to-scale': 'calc(var(--prevent-collapse) / var(--font-size-px))',
+      '--line-gap-scale-half': 'calc(var(--line-gap-scale) / 2)',
+      '--leading-trim-bottom':
+        'calc( var(--descent-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
+      'margin-bottom': 'calc(-1em * var(--leading-trim-bottom))',
+    },
+  }
+
   if (theme('capsize.className')) {
     const capsizeUtilities = {
       [`.${e(theme('capsize.className'))}`]: {
-        padding: '0.05px 0',
-        '&::before': {
-          content: '""',
-          display: 'block',
-          height: '0',
-          'margin-top': `calc(
-            -1em * ((var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale) / 2) -
-                  (
-                    (
-                        (
-                            var(--line-height-scale) * ${
-                              fontSize.endsWith('rem')
-                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                : fontSize.endsWith('px')
-                                ? `var(--font-size-px)`
-                                : ``
-                            } -
-                              (var(--line-height-rem) * var(--root-font-size-px)) -
-                              (var(--line-height-unitless) * ${
-                                fontSize.endsWith('rem')
-                                  ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                  : fontSize.endsWith('px')
-                                  ? `var(--font-size-px)`
-                                  : ``
-                              })
-                              - var(--line-height-px)
-                          ) / 2
-                      ) / ${
-                        fontSize.endsWith('rem')
-                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                          : fontSize.endsWith('px')
-                          ? `var(--font-size-px)`
-                          : ``
-                      }
-                  ) + (0.05 / ${
-                    fontSize.endsWith('rem')
-                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                      : fontSize.endsWith('px')
-                      ? `var(--font-size-px)`
-                      : ``
-                  }))
-          )`,
-        },
-        '&::after': {
-          content: '""',
-          display: 'block',
-          height: '0',
-          'margin-bottom': `calc(
-            -1em * ((var(--descent-scale) + var(--line-gap-scale) / 2) -
-                  (
-                    (
-                        (
-                            var(--line-height-scale) * ${
-                              fontSize.endsWith('rem')
-                                ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                : fontSize.endsWith('px')
-                                ? `var(--font-size-px)`
-                                : ``
-                            } -
-                              (var(--line-height-rem) * var(--root-font-size-px)) -
-                              (var(--line-height-unitless) * ${
-                                fontSize.endsWith('rem')
-                                  ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                                  : fontSize.endsWith('px')
-                                  ? `var(--font-size-px)`
-                                  : ``
-                              })
-                              - var(--line-height-px)
-                          ) / 2
-                      ) / ${
-                        fontSize.endsWith('rem')
-                          ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                          : fontSize.endsWith('px')
-                          ? `var(--font-size-px)`
-                          : ``
-                      }
-                  ) + (0.05 / ${
-                    fontSize.endsWith('rem')
-                      ? `(var(--font-size-rem) * var(--root-font-size-px))`
-                      : fontSize.endsWith('px')
-                      ? `var(--font-size-px)`
-                      : ``
-                  }))
-          )`,
-        },
+        ...capsizeContent,
       },
     }
 
@@ -232,45 +187,7 @@ module.exports = plugin(function ({ addBase, addUtilities, e, theme, variants })
               }),
           ...(theme('capsize.className') === undefined
             ? {
-                padding: '0.05px 0',
-                '&::before': {
-                  content: '""',
-                  display: 'block',
-                  height: '0',
-                  '--line-height-normal': 'calc(var(--line-height-scale) * var(--font-size-px))',
-                  '--specified-line-height-offset-double':
-                    'calc(var(--line-height-normal) - var(--line-height-px))',
-                  '--specified-line-height-offset':
-                    'calc(var(--specified-line-height-offset-double) / 2 )',
-                  '--specified-line-height-offset-to-scale':
-                    'calc(var(--specified-line-height-offset) / var(--font-size-px))',
-                  '--prevent-collapse': '0.05',
-                  '--prevent-collapse-to-scale':
-                    'calc(var(--prevent-collapse) / var(--font-size-px))',
-                  '--line-gap-scale-half': 'calc(var(--line-gap-scale) / 2)',
-                  '--leading-trim-top':
-                    'calc( var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
-                  'margin-top': 'calc(-1em * var(--leading-trim-top))',
-                },
-                '&::after': {
-                  content: '""',
-                  display: 'block',
-                  height: '0',
-                  '--line-height-normal': 'calc(var(--line-height-scale) * var(--font-size-px))',
-                  '--specified-line-height-offset-double':
-                    'calc(var(--line-height-normal) - var(--line-height-px))',
-                  '--specified-line-height-offset':
-                    'calc(var(--specified-line-height-offset-double) / 2 )',
-                  '--specified-line-height-offset-to-scale':
-                    'calc(var(--specified-line-height-offset) / var(--font-size-px))',
-                  '--prevent-collapse': '0.05',
-                  '--prevent-collapse-to-scale':
-                    'calc(var(--prevent-collapse) / var(--font-size-px))',
-                  '--line-gap-scale-half': 'calc(var(--line-gap-scale) / 2)',
-                  '--leading-trim-bottom':
-                    'calc( var(--descent-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
-                  'margin-bottom': 'calc(-1em * var(--leading-trim-bottom))',
-                },
+                ...capsizeContent,
               }
             : {}),
           ...(letterSpacing === undefined
