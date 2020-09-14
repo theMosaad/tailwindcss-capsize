@@ -53,7 +53,6 @@ module.exports = plugin(
     ])
 
     const capsizeContent = {
-      padding: '0.05px 0',
       'padding-top': 'calc(1px * var(--prevent-collapse))',
       'padding-bottom': 'calc(1px * var(--prevent-collapse))',
       'padding-right': '0',
