@@ -1,7 +1,16 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
+let tailwindcssCapsize
+try {
+  tailwindcssCapsize = require('../src/index.js')
+} catch (e) {
+  if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') {
+    tailwindcssCapsize = require('@themosaad/tailwindcss-capsize')
+  } else throw e
+}
+
 module.exports = {
-  purge: ['./src/**/*.{js,mdx}'],
+  // purge: ['./**/*.js'],
   corePlugins: {
     fontFamily: false,
     fontSize: false,
@@ -54,5 +63,5 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require('../src/index.js')],
+  plugins: [tailwindcssCapsize],
 }
