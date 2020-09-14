@@ -12,6 +12,18 @@ Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [See
 <p class="capsize font-sans text-xl leading-tight">Capsized Text</p>
 ```
 
+# Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Trim by default](#trim-by-default)
+  - [Default line-height](#default-line-height)
+  - [Define a default font-family](#define-a-default-font-family)
+  - [Usage with @apply](#usage-with--apply)
+  - [Root font-size](#root-font-size)
+- [Limitation and Customization](#limitation-and-customization)
+- [Behind the scenes](#behind-the-scenes)
+
 ## Installation
 
 Install the plugin from npm:
