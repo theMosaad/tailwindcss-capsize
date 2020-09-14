@@ -6,7 +6,7 @@ A Tailwind CSS plugin for automatically trimming the whitespace above and below 
 
 Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [Seek](https://github.com/seek-oss) team behind it from figuring out the hard parts.
 
-<!-- [View live demo](https://themosaad.com/tailwindcss-capsize) -->
+[View live demo](https://tailwindcss-capsize-demo.vercel.app/)
 
 ```html
 <p class="capsize font-sans text-xl leading-tight">Capsized Text</p>
@@ -26,12 +26,6 @@ Then add the plugin to your `tailwind.config.js` file:
 ```js
 // tailwind.config.js
 module.exports = {
-  // disable core font plugin as they'll be generated with some extra css for trimming
-  corePlugins: {
-    fontFamily: false,
-    fontSize: false,
-    lineHeight: false,
-  },
   theme: {
     fontFamily: {
       // define your custom font
@@ -39,7 +33,7 @@ module.exports = {
     },
     capsize: {
       fontMetrics: {
-        // font metrics for you custom font from Capsize's website
+        // define font metrics for your custom font from Capsize's website
         sans: {
           capHeight: 2048,
           ascent: 2728,
@@ -48,7 +42,7 @@ module.exports = {
           unitsPerEm: 2816,
         },
       },
-      // define the utility class for trimming
+      // define the utility class for trimming (leave empty to trim all text nodes)
       className: 'capsize',
     },
   },
@@ -151,13 +145,7 @@ p {
 }
 ```
 
-## Limitation and Customization
-
-- Accepts only `rem` values for fontSize.
-- Accepts both `rem` and unitless values for lineHeight.
-- Doesn't support IE11 as it utilizes css variables for the trimming calculations. However, font-size and line-height will work as expected.
-
-## Root font-size
+### Root font-size
 
 The plugin outputs the following inside the `@tailwind/base`:
 
@@ -199,5 +187,112 @@ module.exports = {
       },
     },
   },
+}
+```
+
+## Limitation and Customization
+
+- Accepts `rem` and `px` for fontSize.
+- Accepts `rem`, `px`, and `unitless` for lineHeight.
+- Doesn't trim text on IE11 as it uses css variables for the trimming calculations. (will work on a JS polyfill or an average pre-calculation for all project fonts)
+- Adds `padding: 0.05px 0` to capsized element which will override your padding utility classes. Solution is to wrap the text element in a parent element where you add your padding utility classes to.
+
+## Behind the scenes
+
+The plugin adds the following to typography-related utility classes:
+
+To font-family classes, it adds css variables with font metrics:
+
+```css
+.font-sans {
+  font-family: Inter var, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --cap-height: 2048;
+  --ascent: 2728;
+  --descent: -680;
+  --line-gap: 0;
+  --units-per-em: 2816;
+  --absolute-descent: 680;
+  --cap-height-scale: 0.7272;
+  --descent-scale: 0.2414;
+  --ascent-scale: 0.96875;
+  --line-gap-scale: 0;
+  --line-height-scale: 1.2102;
+}
+```
+
+To font-size classes, it adds css variables for calculating the font-size in pixels:
+
+```css
+.text-6xl {
+  font-size: 4rem;
+  --font-size-rem: 4;
+  --font-size-px: calc(var(--font-size-rem) * var(--root-font-size-px));
+}
+```
+
+To line-height classes, it adds css variables for calculating the line-height in pixels:
+
+```css
+.leading-tight {
+  line-height: 1.25;
+  --line-height-unitless: 1.25;
+  --line-height-px: calc(var(--line-height-unitless) * var(--font-size-px));
+}
+```
+
+To the capsized element's pseduo selectors, it adds the trimming calculation:
+
+```css
+.capsize::before {
+  content: '';
+  display: block;
+  height: 0;
+  --line-height-normal: calc(var(--line-height-scale) * var(--font-size-px));
+  --specified-line-height-offset-double: calc(var(--line-height-normal) - var(--line-height-px));
+  --specified-line-height-offset: calc(var(--specified-line-height-offset-double) / 2);
+  --specified-line-height-offset-to-scale: calc(
+    var(--specified-line-height-offset) / var(--font-size-px)
+  );
+  --prevent-collapse-to-scale: calc(var(--prevent-collapse) / var(--font-size-px));
+  --line-gap-scale-half: calc(var(--line-gap-scale) / 2);
+  --leading-trim-top: calc(
+    var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(
+        --specified-line-height-offset-to-scale
+      ) + var(--prevent-collapse-to-scale)
+  );
+  margin-top: calc(-1em * var(--leading-trim-top));
+}
+
+.capsize::after {
+  content: '';
+  display: block;
+  height: 0;
+  --line-height-normal: calc(var(--line-height-scale) * var(--font-size-px));
+  --specified-line-height-offset-double: calc(var(--line-height-normal) - var(--line-height-px));
+  --specified-line-height-offset: calc(var(--specified-line-height-offset-double) / 2);
+  --specified-line-height-offset-to-scale: calc(
+    var(--specified-line-height-offset) / var(--font-size-px)
+  );
+  --prevent-collapse-to-scale: calc(var(--prevent-collapse) / var(--font-size-px));
+  --line-gap-scale-half: calc(var(--line-gap-scale) / 2);
+  --leading-trim-bottom: calc(
+    var(--descent-scale) + var(--line-gap-scale-half) - var(
+        --specified-line-height-offset-to-scale
+      ) + var(--prevent-collapse-to-scale)
+  );
+  margin-bottom: calc(-1em * var(--leading-trim-bottom));
+}
+```
+
+To the capsized element, it adds a small padding to prevent margin collapse:
+
+```css
+.capsize {
+  padding-top: calc(1px * var(--prevent-collapse));
+  padding-bottom: calc(1px * var(--prevent-collapse));
+  padding-right: 0;
+  padding-left: 0;
 }
 ```
