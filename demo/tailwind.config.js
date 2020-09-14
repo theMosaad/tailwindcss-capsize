@@ -32,11 +32,6 @@ module.exports = {
       ],
     },
   },
-  corePlugins: {
-    fontFamily: false,
-    fontSize: false,
-    lineHeight: false,
-  },
   experimental: {
     applyComplexClasses: true,
     defaultLineHeights: true,
