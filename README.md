@@ -177,7 +177,7 @@ To change the default root font-size:
 module.exports = {
   theme: {
     capsize: {
-      rootFontSize: {
+      rootFontSizePx: {
         default: 16,
       },
     },
