@@ -192,7 +192,7 @@ You can also change the rootFontSize for each screen:
 module.exports = {
   theme: {
     capsize: {
-      rootFontSize: {
+      rootFontSizePx: {
         default: 16,
         sm: 18,
         lg: 20,
