@@ -23,6 +23,7 @@ Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [See
   - [Root font-size](#root-font-size)
 - [Limitation and Customization](#limitation-and-customization)
 - [Behind the scenes](#behind-the-scenes)
+- [This port vs original Capsize](#this-port-vs-original-capsize)
 
 ## Installation
 
