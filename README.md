@@ -207,7 +207,7 @@ module.exports = {
 - Accepts `rem` and `px` for fontSize.
 - Accepts `rem`, `px`, and `unitless` for lineHeight.
 - Doesn't trim text on IE11 as it uses css variables for the trimming calculations. (will work on a JS polyfill or an average pre-calculation for all project fonts)
-- Adds `padding: 0.05px 0` to capsized element which will override your padding utility classes. Solution is to wrap the text element in a parent element where you add your padding utility classes to.
+- ~~Adds `padding: 0.05px 0` to capsized element which will override your padding utility classes.~~ No longer the case from v0.3.0.
 
 ## Behind the scenes
 
@@ -217,15 +217,7 @@ To font-family classes, it adds css variables with font metrics:
 
 ```css
 .font-sans {
-  font-family: Inter var, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
-  --cap-height: 2048;
-  --ascent: 2728;
-  --descent: -680;
-  --line-gap: 0;
-  --units-per-em: 2816;
-  --absolute-descent: 680;
+  font-family: Inter var, system-ui;
   --cap-height-scale: 0.7272;
   --descent-scale: 0.2414;
   --ascent-scale: 0.96875;
@@ -259,28 +251,23 @@ To the capsized element's pseduo selectors, it adds the trimming calculation:
 ```css
 .capsize::before {
   content: '';
-  display: block;
-  height: 0;
+  display: table;
   --line-height-normal: calc(var(--line-height-scale) * var(--font-size-px));
   --specified-line-height-offset-double: calc(var(--line-height-normal) - var(--line-height-px));
   --specified-line-height-offset: calc(var(--specified-line-height-offset-double) / 2);
   --specified-line-height-offset-to-scale: calc(
     var(--specified-line-height-offset) / var(--font-size-px)
   );
-  --prevent-collapse-to-scale: calc(var(--prevent-collapse) / var(--font-size-px));
   --line-gap-scale-half: calc(var(--line-gap-scale) / 2);
   --leading-trim-top: calc(
-    var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(
-        --specified-line-height-offset-to-scale
-      ) + var(--prevent-collapse-to-scale)
+    var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale)
   );
-  margin-top: calc(-1em * var(--leading-trim-top));
+  margin-bottom: calc(-1em * var(--leading-trim-top));
 }
 
 .capsize::after {
   content: '';
-  display: block;
-  height: 0;
+  display: table;
   --line-height-normal: calc(var(--line-height-scale) * var(--font-size-px));
   --specified-line-height-offset-double: calc(var(--line-height-normal) - var(--line-height-px));
   --specified-line-height-offset: calc(var(--specified-line-height-offset-double) / 2);
@@ -290,21 +277,37 @@ To the capsized element's pseduo selectors, it adds the trimming calculation:
   --prevent-collapse-to-scale: calc(var(--prevent-collapse) / var(--font-size-px));
   --line-gap-scale-half: calc(var(--line-gap-scale) / 2);
   --leading-trim-bottom: calc(
-    var(--descent-scale) + var(--line-gap-scale-half) - var(
-        --specified-line-height-offset-to-scale
-      ) + var(--prevent-collapse-to-scale)
+    var(--descent-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale)
   );
-  margin-bottom: calc(-1em * var(--leading-trim-bottom));
+  margin-top: calc(-1em * var(--leading-trim-bottom));
 }
 ```
 
-To the capsized element, it adds a small padding to prevent margin collapse:
+## This port vs original Capsize
 
-```css
-.capsize {
-  padding-top: calc(1px * var(--prevent-collapse));
-  padding-bottom: calc(1px * var(--prevent-collapse));
-  padding-right: 0;
-  padding-left: 0;
+Aside from implementing the calculations via CSS variables to allow the usage of utility classes as illustrated above, I use a different method to prevent margin collapse that's not yet used in the original Capsize package (capsize@1.1.0 at the time).
+
+Capsize currently adds a `0.05` top and bottom padding to the capsized element to prevent margin collapse.
+
+From v0.3.0, I implemented a new way to prevent the collapsing based on @michaeltaranto's findings in [this issue](https://github.com/seek-oss/capsize/issues/26#issuecomment-686796155) that's not yet implemented in their Capsize.
+
+Now, you can use padding classes on the capsized element:
+
+```html
+<a src="#" class="capsize font-sans text-xl leading-tight px-2 py-4">
+  Capsized Link with Padding
+</a>
+```
+
+If you encountered any crossbrowser issue with the new prevent collapse implementation, you can reverse back to the original implementation with padding:
+
+```js
+// tailwind.config.js
+module.exports = {
+  theme: {
+    capsize: {
+      keepPadding: true,
+    },
+  },
 }
 ```

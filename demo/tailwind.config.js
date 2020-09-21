@@ -75,6 +75,7 @@ module.exports = {
         },
         // rootLineHeightUnitless: 1.5,
         // className: 'capsize',
+        // keepPadding: true,
       },
     },
   },
