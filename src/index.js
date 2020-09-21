@@ -171,7 +171,9 @@ module.exports = plugin(
               ? { '--font-size-px': fontSize.replace('px', '') }
               : {}),
             ...(lineHeight === undefined
-              ? {}
+              ? {
+                  '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
+                }
               : {
                   'line-height': lineHeight,
                   ...(lineHeight.endsWith('rem')
