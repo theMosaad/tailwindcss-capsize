@@ -6,7 +6,7 @@ A Tailwind CSS plugin for automatically trimming the whitespace above and below 
 
 Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [Seek](https://github.com/seek-oss) team behind it from figuring out the hard parts.
 
-[View live demo](https://tailwindcss-capsize-demo.vercel.app/)
+[View live demo](https://tailwindcss-capsize.themosaad.com)
 
 ```html
 <p class="capsize font-sans text-xl leading-tight">Capsized Text</p>
