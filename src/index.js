@@ -46,37 +46,65 @@ module.exports = plugin(
           ...generateRootFontSizeFor(0),
           'line-height': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
           '--line-height-unitless': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
-          '--prevent-collapse': '0.05',
+          ...(theme('capsize.keepPadding')
+            ? {
+                '--prevent-collapse': '0.05',
+              }
+            : {}),
         },
       },
       ...atRules,
     ])
 
     const capsizeContent = {
-      'padding-top': 'calc(1px * var(--prevent-collapse))',
-      'padding-bottom': 'calc(1px * var(--prevent-collapse))',
-      'padding-right': '0',
-      'padding-left': '0',
+      ...(theme('capsize.keepPadding')
+        ? {
+            'padding-top': 'calc(1px * var(--prevent-collapse))',
+            'padding-bottom': 'calc(1px * var(--prevent-collapse))',
+            'padding-right': '0',
+            'padding-left': '0',
+          }
+        : {}),
       '&::before': {
         content: '""',
-        display: 'block',
-        height: '0',
+        ...(theme('capsize.keepPadding')
+          ? {
+              display: 'block',
+              height: '0',
+            }
+          : {
+              display: 'table',
+            }),
         '--line-height-normal': 'calc(var(--line-height-scale) * var(--font-size-px))',
         '--specified-line-height-offset-double':
           'calc(var(--line-height-normal) - var(--line-height-px))',
         '--specified-line-height-offset': 'calc(var(--specified-line-height-offset-double) / 2 )',
         '--specified-line-height-offset-to-scale':
           'calc(var(--specified-line-height-offset) / var(--font-size-px))',
-        '--prevent-collapse-to-scale': 'calc(var(--prevent-collapse) / var(--font-size-px))',
         '--line-gap-scale-half': 'calc(var(--line-gap-scale) / 2)',
-        '--leading-trim-top':
-          'calc( var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
-        'margin-top': 'calc(-1em * var(--leading-trim-top))',
+        ...(theme('capsize.keepPadding')
+          ? {
+              '--prevent-collapse-to-scale': 'calc(var(--prevent-collapse) / var(--font-size-px))',
+              '--leading-trim-top':
+                'calc( var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
+              'margin-top': 'calc(-1em * var(--leading-trim-top))',
+            }
+          : {
+              '--leading-trim-top':
+                'calc( var(--ascent-scale) - var(--cap-height-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) )',
+              'margin-bottom': 'calc(-1em * var(--leading-trim-top))',
+            }),
       },
       '&::after': {
         content: '""',
-        display: 'block',
-        height: '0',
+        ...(theme('capsize.keepPadding')
+          ? {
+              display: 'block',
+              height: '0',
+            }
+          : {
+              display: 'table',
+            }),
         '--line-height-normal': 'calc(var(--line-height-scale) * var(--font-size-px))',
         '--specified-line-height-offset-double':
           'calc(var(--line-height-normal) - var(--line-height-px))',
@@ -85,9 +113,17 @@ module.exports = plugin(
           'calc(var(--specified-line-height-offset) / var(--font-size-px))',
         '--prevent-collapse-to-scale': 'calc(var(--prevent-collapse) / var(--font-size-px))',
         '--line-gap-scale-half': 'calc(var(--line-gap-scale) / 2)',
-        '--leading-trim-bottom':
-          'calc( var(--descent-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
-        'margin-bottom': 'calc(-1em * var(--leading-trim-bottom))',
+        ...(theme('capsize.keepPadding')
+          ? {
+              '--leading-trim-bottom':
+                'calc( var(--descent-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) + var(--prevent-collapse-to-scale) )',
+              'margin-bottom': 'calc(-1em * var(--leading-trim-bottom))',
+            }
+          : {
+              '--leading-trim-bottom':
+                'calc( var(--descent-scale) + var(--line-gap-scale-half) - var(--specified-line-height-offset-to-scale) )',
+              'margin-top': 'calc(-1em * var(--leading-trim-bottom))',
+            }),
       },
     }
 
