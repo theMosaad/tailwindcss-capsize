@@ -4,7 +4,7 @@
 
 A Tailwind CSS plugin for automatically trimming the whitespace above and below text nodes. This is a port of [Capsize](https://github.com/seek-oss/capsize).
 
-Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [Seek](https://github.com/seek-oss) team behind it from figuring out the hard parts.
+Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [Seek](https://github.com/seek-oss) team behind it for figuring out the hard parts.
 
 [View live demo](https://tailwindcss-capsize.themosaad.com)
 
