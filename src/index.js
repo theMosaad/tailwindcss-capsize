@@ -270,6 +270,70 @@ module.exports = plugin(
     )
 
     addUtilities(lineHeightUtilities, variants('lineHeight'))
+
+    const capHeightUtilities = _.fromPairs(
+      _.map(theme('fontSize'), (value, modifier) => {
+        const [capHeight, options] = Array.isArray(value) ? value : [value]
+        const { lineHeight, letterSpacing } = _.isPlainObject(options)
+          ? options
+          : {
+              lineHeight: options,
+            }
+
+        return [
+          `.${e(`cap-height-${modifier}`)}`,
+          {
+            'font-size': 'calc(1px * var(--font-size-px))',
+            ...(capHeight.endsWith('rem')
+              ? {
+                  '--cap-height-rem': capHeight.replace('rem', ''),
+                  '--cap-height-px': 'calc(var(--cap-height-rem) * var(--root-font-size-px))',
+                  '--font-size-px': 'calc(var(--cap-height-px) / var(--cap-height-scale))',
+                }
+              : capHeight.endsWith('px')
+              ? {
+                  '--cap-height-px': capHeight.replace('px', ''),
+                  '--font-size-px': 'calc(var(--cap-height-px) / var(--cap-height-scale))',
+                }
+              : {}),
+            ...(lineHeight === undefined
+              ? {
+                  '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
+                }
+              : {
+                  'line-height': lineHeight,
+                  ...(lineHeight.endsWith('rem')
+                    ? {
+                        '--line-height-rem': lineHeight.replace('rem', ''),
+                        '--line-height-px':
+                          'calc(var(--line-height-rem) * var(--root-font-size-px))',
+                      }
+                    : lineHeight.endsWith('px')
+                    ? { '--line-height-px': lineHeight.replace('px', '') }
+                    : !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight)
+                    ? {
+                        '--line-height-unitless': lineHeight,
+                        '--line-height-px':
+                          'calc(var(--line-height-unitless) * var(--font-size-px))',
+                      }
+                    : {}),
+                }),
+            ...(theme('capsize.className') === undefined
+              ? {
+                  ...capsizeContent,
+                }
+              : {}),
+            ...(letterSpacing === undefined
+              ? {}
+              : {
+                  'letter-spacing': letterSpacing,
+                }),
+          },
+        ]
+      })
+    )
+
+    addUtilities(capHeightUtilities, variants('fontSize'))
   },
   {
     corePlugins: {
