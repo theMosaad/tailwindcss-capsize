@@ -249,32 +249,6 @@ module.exports = plugin(
 
     addUtilities(fontSizeUtilities, variants('fontSize'))
 
-    const lineHeightUtilities = _.fromPairs(
-      _.map(theme('lineHeight'), (lineHeight, modifier) => {
-        return [
-          `.${e(`leading-${modifier}`)}`,
-          {
-            'line-height': lineHeight,
-            ...(lineHeight.endsWith('rem')
-              ? {
-                  '--line-height-rem': lineHeight.replace('rem', ''),
-                  '--line-height-px': 'calc(var(--line-height-rem) * var(--root-font-size-px))',
-                }
-              : lineHeight.endsWith('px')
-              ? { '--line-height-px': fontSize.replace('px', '') }
-              : !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight)
-              ? {
-                  '--line-height-unitless': lineHeight,
-                  '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
-                }
-              : {}),
-          },
-        ]
-      })
-    )
-
-    addUtilities(lineHeightUtilities, variants('lineHeight'))
-
     const capHeightUtilities = _.fromPairs(
       _.map(theme('fontSize'), (value, modifier) => {
         const [capHeight, options] = Array.isArray(value) ? value : [value]
@@ -307,6 +281,32 @@ module.exports = plugin(
     )
 
     addUtilities(capHeightUtilities, variants('capHeight'))
+
+    const lineHeightUtilities = _.fromPairs(
+      _.map(theme('lineHeight'), (lineHeight, modifier) => {
+        return [
+          `.${e(`leading-${modifier}`)}`,
+          {
+            'line-height': lineHeight,
+            ...(lineHeight.endsWith('rem')
+              ? {
+                  '--line-height-rem': lineHeight.replace('rem', ''),
+                  '--line-height-px': 'calc(var(--line-height-rem) * var(--root-font-size-px))',
+                }
+              : lineHeight.endsWith('px')
+              ? { '--line-height-px': fontSize.replace('px', '') }
+              : !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight)
+              ? {
+                  '--line-height-unitless': lineHeight,
+                  '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
+                }
+              : {}),
+          },
+        ]
+      })
+    )
+
+    addUtilities(lineHeightUtilities, variants('lineHeight'))
 
     const lineGapUtilities = _.fromPairs(
       _.map(theme('lineHeight'), (lineGap, modifier) => {
