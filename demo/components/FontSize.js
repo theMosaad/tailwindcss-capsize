@@ -1,7 +1,7 @@
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../tailwind.config'
 
-export default function Typography() {
+export default function FontSize() {
   const fullConfig = resolveConfig(tailwindConfig)
   return (
     <section>
@@ -17,9 +17,6 @@ export default function Typography() {
             .reverse()
             .map((fontSize, fontSizeIndex) => (
               <div key={fontSizeIndex}>
-                <p
-                  className={`cap-height-${fontSize} text-gray-900 bg-red-200 mb-4`}
-                >{`text-${fontSize}`}</p>
                 <p
                   className={`text-${fontSize} text-gray-900 bg-red-200 mb-4`}
                 >{`text-${fontSize}`}</p>

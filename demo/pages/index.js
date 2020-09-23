@@ -1,5 +1,6 @@
 import Head from 'next/head'
-import Typography from '../components/Typography'
+import CapHeight from '../components/CapHeight'
+import FontSize from '../components/FontSize'
 
 export default function Index({}) {
   return (
@@ -133,7 +134,8 @@ export default function Index({}) {
               </div>
             </div>
             <div className="markdown mx-auto">
-              <Typography />
+              <CapHeight />
+              <FontSize />
             </div>
           </div>
         </article>
