@@ -219,7 +219,7 @@ module.exports = plugin(
                           'calc(var(--line-height-rem) * var(--root-font-size-px))',
                       }
                     : lineHeight.endsWith('px')
-                    ? { '--line-height-px': fontSize.replace('px', '') }
+                    ? { '--line-height-px': lineHeight.replace('px', '') }
                     : !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight)
                     ? {
                         '--line-height-unitless': lineHeight,
