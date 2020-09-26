@@ -1,6 +1,6 @@
 {
   "name": "@themosaad/tailwindcss-capsize",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "A Tailwind CSS plugin for trimming the whitespace above and below text nodes. This is a port of Capsize.",
   "main": "src/index.js",
   "repository": {
