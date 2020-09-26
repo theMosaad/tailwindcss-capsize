@@ -46,6 +46,7 @@ module.exports = plugin(
           ...generateRootFontSizeFor(0),
           'line-height': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
           '--line-height-unitless': theme('capsize.rootLineHeightUnitless', '1.5').toString(),
+          '--line-gap-unitless': theme('capsize.rootLineGapUnitless', '0.5').toString(),
           ...(theme('capsize.keepPadding')
             ? {
                 '--prevent-collapse': '0.05',
@@ -185,41 +186,6 @@ module.exports = plugin(
 
     addUtilities(fontFamilyUtilities, variants('fontFamily'))
 
-    const defaultLineHeightandLetterSpacing = (lineHeight, letterSpacing) => {
-      return {
-        ...(lineHeight === undefined
-          ? {
-              '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
-            }
-          : {
-              'line-height': lineHeight,
-              ...(lineHeight.endsWith('rem')
-                ? {
-                    '--line-height-rem': lineHeight.replace('rem', ''),
-                    '--line-height-px': 'calc(var(--line-height-rem) * var(--root-font-size-px))',
-                  }
-                : lineHeight.endsWith('px')
-                ? { '--line-height-px': lineHeight.replace('px', '') }
-                : !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight)
-                ? {
-                    '--line-height-unitless': lineHeight,
-                    '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
-                  }
-                : {}),
-            }),
-        ...(theme('capsize.className') === undefined
-          ? {
-              ...capsizeContent,
-            }
-          : {}),
-        ...(letterSpacing === undefined
-          ? {}
-          : {
-              'letter-spacing': letterSpacing,
-            }),
-      }
-    }
-
     const fontSizeUtilities = _.fromPairs(
       _.map(theme('fontSize'), (value, modifier) => {
         const [fontSize, options] = Array.isArray(value) ? value : [value]
@@ -241,7 +207,38 @@ module.exports = plugin(
               : fontSize.endsWith('px')
               ? { '--font-size-px': fontSize.replace('px', '') }
               : {}),
-            ...defaultLineHeightandLetterSpacing(lineHeight, letterSpacing),
+            ...(lineHeight === undefined
+              ? {
+                  '--line-height-px': 'calc(var(--line-height-unitless) * var(--font-size-px))',
+                }
+              : {
+                  'line-height': lineHeight,
+                  ...(lineHeight.endsWith('rem')
+                    ? {
+                        '--line-height-rem': lineHeight.replace('rem', ''),
+                        '--line-height-px':
+                          'calc(var(--line-height-rem) * var(--root-font-size-px))',
+                      }
+                    : lineHeight.endsWith('px')
+                    ? { '--line-height-px': lineHeight.replace('px', '') }
+                    : !isNaN(parseFloat(lineHeight)) && isFinite(lineHeight)
+                    ? {
+                        '--line-height-unitless': lineHeight,
+                        '--line-height-px':
+                          'calc(var(--line-height-unitless) * var(--font-size-px))',
+                      }
+                    : {}),
+                }),
+            ...(theme('capsize.className') === undefined
+              ? {
+                  ...capsizeContent,
+                }
+              : {}),
+            ...(letterSpacing === undefined
+              ? {}
+              : {
+                  'letter-spacing': letterSpacing,
+                }),
           },
         ]
       })
@@ -250,12 +247,12 @@ module.exports = plugin(
     addUtilities(fontSizeUtilities, variants('fontSize'))
 
     const capHeightUtilities = _.fromPairs(
-      _.map(theme('fontSize'), (value, modifier) => {
+      _.map(theme('capHeight'), (value, modifier) => {
         const [capHeight, options] = Array.isArray(value) ? value : [value]
-        const { lineHeight, letterSpacing } = _.isPlainObject(options)
+        const { lineGap, letterSpacing } = _.isPlainObject(options)
           ? options
           : {
-              lineHeight: options,
+              lineGap: options,
             }
 
         return [
@@ -274,7 +271,38 @@ module.exports = plugin(
                   '--font-size-px': 'calc(var(--cap-height-px) / var(--cap-height-scale))',
                 }
               : {}),
-            ...defaultLineHeightandLetterSpacing(lineHeight, letterSpacing),
+            'line-height': 'calc(1px * var(--line-height-px))',
+            ...(lineGap === undefined
+              ? {
+                  '--line-gap-px': 'calc(var(--cap-height-px) * var(--line-gap-unitless))',
+                  '--line-height-px': 'calc(var(--cap-height-px) + var(--line-gap-px))',
+                }
+              : {
+                  ...(lineGap.endsWith('rem')
+                    ? {
+                        '--line-gap-rem': lineGap.replace('rem', ''),
+                        '--line-gap-px': 'calc(var(--line-gap-rem) * var(--root-font-size-px))',
+                        '--line-height-px': 'calc(var(--cap-height-px) + var(--line-gap-px))',
+                      }
+                    : lineGap.endsWith('px')
+                    ? {
+                        '--line-gap-px': lineGap.replace('px', ''),
+                        '--line-height-px': 'calc(var(--cap-height-px) + var(--line-gap-px))',
+                      }
+                    : !isNaN(parseFloat(lineGap)) && isFinite(lineGap)
+                    ? {
+                        '--line-gap-unitless': lineGap,
+                        '--line-gap-px': 'calc(var(--cap-height-px) * var(--line-gap-unitless))',
+                        '--line-height-px': 'calc(var(--cap-height-px) + var(--line-gap-px))',
+                      }
+                    : {}),
+                }),
+
+            ...(theme('capsize.className') === undefined
+              ? {
+                  ...capsizeContent,
+                }
+              : {}),
           },
         ]
       })
@@ -309,7 +337,7 @@ module.exports = plugin(
     addUtilities(lineHeightUtilities, variants('lineHeight'))
 
     const lineGapUtilities = _.fromPairs(
-      _.map(theme('lineHeight'), (lineGap, modifier) => {
+      _.map(theme('lineGap'), (lineGap, modifier) => {
         return [
           `.${e(`line-gap-${modifier}`)}`,
           {
@@ -325,6 +353,12 @@ module.exports = plugin(
                   '--line-gap-px': lineGap.replace('px', ''),
                   '--line-height-px': 'calc(var(--cap-height-px) + var(--line-gap-px))',
                 }
+              : !isNaN(parseFloat(lineGap)) && isFinite(lineGap)
+              ? {
+                  '--line-gap-unitless': lineGap,
+                  '--line-gap-px': 'calc(var(--cap-height-px) * var(--line-gap-unitless))',
+                  '--line-height-px': 'calc(var(--cap-height-px) + var(--line-gap-px))',
+                }
               : {}),
           },
         ]
@@ -338,6 +372,42 @@ module.exports = plugin(
       fontFamily: false,
       fontSize: false,
       lineHeight: false,
+    },
+    theme: {
+      capHeight: {
+        2: ['0.5rem', { lineGap: '0.5rem' }],
+        2.5: ['0.625rem', { lineGap: '0.625rem' }],
+        3: ['0.75rem', { lineGap: '0.75rem' }],
+        3.5: ['0.875rem', { lineGap: '0.875rem' }],
+        4: ['1rem', { lineGap: '1rem' }],
+        5: ['1.25rem', { lineGap: '1.25rem' }],
+        6: ['1.5rem', { lineGap: '1.5rem' }],
+        7: ['1.75rem', { lineGap: '1.75rem' }],
+        8: ['2rem', { lineGap: '2rem' }],
+        9: ['2.25rem', { lineGap: '2.25rem' }],
+        10: ['2.5rem', { lineGap: '2.5rem' }],
+        11: ['2.75rem', { lineGap: '2.75rem' }],
+        12: ['3rem', { lineGap: '3rem' }],
+        13: ['3.25rem', { lineGap: '3.25rem' }],
+        14: ['3.5rem', { lineGap: '3.5rem' }],
+        15: ['3.75rem', { lineGap: '3.55rem' }],
+      },
+      lineGap: {
+        0: '0',
+        2: '0.5rem',
+        2.5: '0.625rem',
+        3: '0.75rem',
+        3.5: '0.875rem',
+        4: '1rem',
+        5: '1.25rem',
+        6: '1.5rem',
+        7: '1.75rem',
+        8: '2rem',
+        9: '2.25rem',
+        10: '2.5rem',
+        11: '2.75rem',
+        12: '3rem',
+      },
     },
   }
 )
