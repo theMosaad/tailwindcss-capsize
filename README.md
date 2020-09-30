@@ -299,7 +299,7 @@ From v0.3.0, I implemented a new way to prevent the collapsing based on @michael
 Now, you can use padding classes on the capsized element:
 
 ```html
-<a src="#" class="capsize font-sans text-xl leading-tight px-2 py-4">
+<a href="#" class="capsize font-sans text-xl leading-tight px-2 py-4">
   Capsized Link with Padding
 </a>
 ```
