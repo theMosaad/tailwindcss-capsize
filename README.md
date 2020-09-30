@@ -24,6 +24,10 @@ Huge thanks to [Michael Taranto](https://github.com/michaeltaranto) and the [See
 - [Limitation and Customization](#limitation-and-customization)
 - [Behind the scenes](#behind-the-scenes)
 - [This port vs original Capsize](#this-port-vs-original-capsize)
+- [cap-height (since v0.4.0)](#cap-height--since-v040-)
+  - [Default values](#default-values)
+- [line-gap (since v0.4.0)](#line-gap--since-v040-)
+  - [Default values](#default-values-1)
 
 ## Installation
 
