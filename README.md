@@ -312,3 +312,102 @@ module.exports = {
   },
 }
 ```
+
+## cap-height (since v0.4.0)
+
+Instead of setting the `font-size`, you can use `cap-height` to declare the height of a the capital letters, and it'll automatically set the `font-size` based on the `fontMetrics`.
+
+This comes in handy when you have an icon next to the test and you want to visually balance their height.
+
+```html
+<p class="font-sans cap-height-4">Capsized Text that's 1rem in height</p>
+```
+
+### Default values
+
+Default values are cut from the `extendedSpacingScale` feature flag. Found it unuseful to inclue the very small and very large values.
+
+You can override the default values via:
+
+```js
+module.exports = {
+  theme: {
+    // ...
+    capHeight: {
+      2: '0.5rem',
+      2.5: '0.625rem',
+      3: '0.75rem',
+      3.5: '0.875rem',
+      4: '1rem',
+      5: '1.25rem',
+      6: '1.5rem',
+      7: '1.75rem',
+      8: '2rem',
+      9: '2.25rem',
+      10: '2.5rem',
+      11: '2.75rem',
+      12: '3rem',
+      13: '3.25rem',
+      14: '3.5rem',
+      15: '3.75rem',
+    },
+  },
+}
+```
+
+## line-gap (since v0.4.0)
+
+`line-gap` goes hand in hand with `cap-height` to have predectible height.
+
+If the following example wrapped to 2 lines. The total height of the element would be 3rem.
+
+```html
+<p class="font-sans cap-height-4 line-gap-4">
+  Capsized Text that's 1rem in height and has a 1rem line-gap
+</p>
+```
+
+### Default values
+
+`line-gap` has the same default values as `cap-height` which you can override via:
+
+```js
+module.exports = {
+  theme: {
+    // ...
+    lineGap: {
+      2: '0.5rem',
+      2.5: '0.625rem',
+      3: '0.75rem',
+      3.5: '0.875rem',
+      4: '1rem',
+      5: '1.25rem',
+      6: '1.5rem',
+      7: '1.75rem',
+      8: '2rem',
+      9: '2.25rem',
+      10: '2.5rem',
+      11: '2.75rem',
+      12: '3rem',
+      13: '3.25rem',
+      14: '3.5rem',
+      15: '3.75rem',
+    },
+  },
+}
+```
+
+You can also set default `line-gap` values for each `cap-height` similar to the [defaultLineHeights experimental feature](https://github.com/tailwindlabs/tailwindcss/blob/v1.8.5/src/flagged/defaultLineHeights.js) via:
+
+```js
+module.exports = {
+  theme: {
+    // ...
+    capHeight: {
+      2: ['0.5rem', { lineGap: '0.5rem' }],
+      3: ['0.75rem', { lineGap: '0.625rem' }],
+      // ...
+    },
+  },
+}
+```
