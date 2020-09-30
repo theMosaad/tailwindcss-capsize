@@ -24,16 +24,16 @@ export default function Typography() {
                   .map((fontSize, fontSizeIndex) => (
                     <div key={fontSizeIndex}>
                       <p
-                        className={`text-${fontSize} text-gray-900 bg-red-200 mb-6`}
+                        className={`text-${fontSize} break-all text-gray-900 bg-red-200 mb-6`}
                       >{`text-${fontSize}`}</p>
                       <p
-                        className={`text-${fontSize} leading-none text-gray-900 bg-red-200 mb-6`}
+                        className={`text-${fontSize} leading-none break-all text-gray-900 bg-red-200 mb-6`}
                       >{`text-${fontSize} leading-none`}</p>
                       <p
-                        className={`text-${fontSize} leading-tight text-gray-900 bg-red-200 mb-6`}
+                        className={`text-${fontSize} leading-tight break-all text-gray-900 bg-red-200 mb-6`}
                       >{`text-${fontSize} leading-tight`}</p>
                       <p
-                        className={`text-${fontSize} leading-relaxed text-gray-900 bg-red-200 mb-6`}
+                        className={`text-${fontSize} leading-relaxed break-all text-gray-900 bg-red-200 mb-6`}
                       >{`text-${fontSize} leading-relaxed`}</p>
                     </div>
                   ))}
@@ -48,16 +48,16 @@ export default function Typography() {
                     .map((capHeight, capHeightIndex) => (
                       <div key={capHeightIndex}>
                         <p
-                          className={`cap-height-${capHeight} text-gray-900 bg-red-200 mb-6`}
+                          className={`cap-height-${capHeight} break-all text-gray-900 bg-red-200 mb-6`}
                         >{`cap-height-${capHeight}`}</p>
                         <p
-                          className={`cap-height-${capHeight} line-gap-0 text-gray-900 bg-red-200 mb-6`}
+                          className={`cap-height-${capHeight} line-gap-0 break-all text-gray-900 bg-red-200 mb-6`}
                         >{`cap-height-${capHeight} line-gap-0`}</p>
                         <p
-                          className={`cap-height-${capHeight} line-gap-8 text-gray-900 bg-red-200 mb-6`}
+                          className={`cap-height-${capHeight} line-gap-8 break-all text-gray-900 bg-red-200 mb-6`}
                         >{`cap-height-${capHeight} line-gap-8`}</p>
                         <p
-                          className={`cap-height-${capHeight} line-gap-10 text-gray-900 bg-red-200 mb-6`}
+                          className={`cap-height-${capHeight} line-gap-10 break-all text-gray-900 bg-red-200 mb-6`}
                         >{`cap-height-${capHeight} line-gap-10`}</p>
                       </div>
                     ))}
