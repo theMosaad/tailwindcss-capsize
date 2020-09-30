@@ -297,12 +297,7 @@ module.exports = plugin(
                       }
                     : {}),
                 }),
-
-            ...(theme('capsize.className') === undefined
-              ? {
-                  ...capsizeContent,
-                }
-              : {}),
+            ...capsizeContent,
           },
         ]
       })
