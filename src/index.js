@@ -368,6 +368,10 @@ module.exports = plugin(
       fontSize: false,
       lineHeight: false,
     },
+    variants: {
+      capHeight: ['responsive'],
+      lineGap: ['responsive'],
+    },
     theme: {
       capHeight: {
         2: ['0.5rem', { lineGap: '0.5rem' }],
