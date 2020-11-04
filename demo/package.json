@@ -10,7 +10,7 @@
   "author": "Mosaad",
   "license": "ISC",
   "dependencies": {
-    "@themosaad/tailwindcss-capsize": "^0.4.0",
+    "@themosaad/tailwindcss-capsize": "^0.5.0",
     "next": "^9.5.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
