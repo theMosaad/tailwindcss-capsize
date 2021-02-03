@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@themosaad/tailwindcss-capsize": "^0.5.0",
-    "next": "^9.5.3",
+    "autoprefixer": "^10.2.4",
+    "next": "^10.0.6",
+    "postcss": "^8.2.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "tailwindcss": "^1.8.9"
+    "tailwindcss": "^2.0.2"
   }
 }

@@ -23,18 +23,15 @@
   "scripts": {
     "release": "np"
   },
-  "peerDependencies": {
-    "tailwindcss": "^1.5.0"
-  },
   "bugs": {
     "url": "https://github.com/theMosaad/tailwindcss-capsize/issues"
   },
   "homepage": "https://github.com/theMosaad/tailwindcss-capsize#readme",
   "dependencies": {
-    "lodash": "^4.17.20",
-    "tailwindcss": "^1.8.9"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "np": "^6.5.0"
+    "np": "^6.5.0",
+    "tailwindcss": "^2.0.2"
   }
 }
